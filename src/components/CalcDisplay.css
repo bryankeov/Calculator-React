@@ -1,0 +1,10 @@
+.display-container {
+  height: 80px;
+  width: 380px;
+  margin: 5px;
+  padding: 5px;
+  background-color: grey;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
