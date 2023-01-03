@@ -6,3 +6,8 @@
   grid-template-rows: repeat(5, 1fr);
   grid-gap: 10px;
 }
+
+button {
+  background-color: #DABFDE;
+  border-radius: 5px;
+}

@@ -1,9 +1,9 @@
 import "./CalcDisplay.css"
 
-function CalcDisplay(props) {
+function CalcDisplay({value}) {
   return (
     <div className="display-container">
-      <div>{props.value}</div>
+      <div>{value}</div>
     </div>
   )
 }

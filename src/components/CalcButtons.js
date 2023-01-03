@@ -2,7 +2,7 @@ import "./CalcButtons.css"
 
 function CalcButtons({className, value, onClick}) {
   return (
-    <button className={className} onClick={onClick}>
+    <button className={className} onClick={onClick} value={value}>
       {value}
     </button>
   )
