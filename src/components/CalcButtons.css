@@ -10,4 +10,10 @@
 button {
   background-color: #DABFDE;
   border-radius: 5px;
+  font-size: larger;
+  font-weight: bolder;
+}
+
+.equals {
+  width: 210%;
 }

@@ -20,7 +20,6 @@ function App() {
 
   //Click Handlers
   const signClickHandler = (e) => {
-    e.preventDefault();
     const value = e.target.value;
 
     setCalc({
@@ -34,21 +33,19 @@ function App() {
   const invertClickHandler = () => {
     setCalc({
       ...calc,
-      num: CalcDisplay.num ? calc.num * -1 : 0,
-      result: calc.result ? calc.result * -1 : 0,
-      sign: ""
+      num: calc.num * -1,
+      result: calc.result * -1
     })
   }
 
   const percentClickHandler = () => {
-    let number = calc.num ? parseFloat(calc.num) : 0
-    let result = calc.result ? parseFloat(calc.result) : 0
+    let number = parseFloat(calc.num)
+    let result = parseFloat(calc.result)
   
     setCalc({
       ...calc,
       num: (number /= Math.pow(100, 1)),
       result: (result /= Math.pow(100, 1)),
-      sign: ""
     })
   }
 
@@ -63,11 +60,11 @@ function App() {
       setCalc({
         ...calc,
         result:
-        calc.num === "0" && calc.sign === "/"
-          ? "Can't divide"
-          : equation(Number(calc.result), 
-            Number(calc.num),
-            calc.sign),
+          calc.num === "0" && calc.sign === "/"
+            ? "Can't divide by 0"
+            : equation(Number(calc.result), 
+              Number(calc.num),
+              calc.sign),
         sign: "",
         num: 0
       })
@@ -75,7 +72,6 @@ function App() {
   }
 
   const commaClickHandler = (e) => {
-    e.preventDefault();
     const value = e.target.value;
     
     setCalc({
@@ -97,7 +93,7 @@ function App() {
 
   const numClickHandler = (e) => {
     const value = e.target.value;
-
+    
     setCalc({
       ...calc,
       num:
@@ -118,7 +114,10 @@ function App() {
           return (
           <CalcButtons
             key={index}
-            className={btn === "=" ? "equals" : ""}
+            className={btn === "=" 
+              ? "equals" : btn === "C"
+              ? "clear" : btn === 0
+              ? "zero" : "button"}
             value={btn}
             onClick={
               btn === "/" || btn === "X" || btn === "-" || btn === "+"
