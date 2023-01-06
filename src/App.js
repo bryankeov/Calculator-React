@@ -93,15 +93,19 @@ function App() {
 
   const numClickHandler = (e) => {
     const value = e.target.value;
-    
-    setCalc({
-      ...calc,
-      num:
-        calc.num === 0 && value === "0"
-          ? "0" : calc.num % 1 === 0
-          ? Number(calc.num + value) : calc.num + value,
-      result: !calc.sign ? 0 : calc.result
-    })
+
+    const numLength = calc.num.toString().length
+
+    if(numLength < 12) {
+      setCalc({
+        ...calc,
+        num:
+          calc.num === 0 && value === "0"
+            ? "0" : calc.num % 1 === 0
+            ? Number(calc.num + value) : calc.num + value,
+        result: !calc.sign ? 0 : calc.result
+      })
+    }
   }
 
   return (
