@@ -52,14 +52,18 @@ function App() {
 
   const equalsClickHandler = () => {
     if (calc.sign && calc.num) {
-      const equation = (a, b, sign) =>
-        sign === "/"
-          ? a / b
-          : sign === "X"
-          ? a * b
-          : sign === "-"
-          ? a - b
-          : a + b;
+      const equation = (a, b, sign) => {
+        if (sign === "/") {
+          return a / b;
+        }
+        if (sign === "X") {
+          return a * b;
+        }
+        if (sign === "-") {
+          return a - b;
+        }
+        return a + b;
+      };
 
       setCalc({
         ...calc,
@@ -93,59 +97,73 @@ function App() {
 
   const numClickHandler = (e) => {
     const value = e.target.value;
-
     const numLength = calc.num.toString().length;
+
+    function numValue() {
+      if (calc.num === 0 && value === "0") {
+        return "0";
+      }
+      if (calc.num % 1 === 0) {
+        return Number(calc.num + value);
+      }
+      return calc.num + value;
+    }
 
     if (numLength < 12) {
       setCalc({
         ...calc,
-        num:
-          calc.num === 0 && value === "0"
-            ? "0"
-            : calc.num % 1 === 0
-            ? Number(calc.num + value)
-            : calc.num + value,
+        num: numValue(),
         result: !calc.sign ? 0 : calc.result,
       });
     }
   };
+  function btnClassName(btn) {
+    if (btn === "=") {
+      return "equals";
+    }
+    if (btn === "C") {
+      return "clear";
+    }
+    if (btn === 0) {
+      return "zero";
+    }
+    return "button";
+  }
+
+  function assignClickHandler(btn) {
+    if (btn === "/" || btn === "X" || btn === "-" || btn === "+") {
+      return signClickHandler;
+    }
+    if (btn === "+-") {
+      return invertClickHandler;
+    }
+    if (btn === "%") {
+      return percentClickHandler;
+    }
+    if (btn === "=") {
+      return equalsClickHandler;
+    }
+    if (btn === ".") {
+      return commaClickHandler;
+    }
+    if (btn === "C") {
+      return resetClickHandler;
+    }
+    return numClickHandler;
+  }
 
   return (
     <div className="App">
       <CalcDisplay value={calc.num ? calc.num : calc.result} />
       <div className="button-container">
-        {buttonArr.flat().map((btn, index) => {
-          return (
-            <CalcButtons
-              key={index}
-              className={
-                btn === "="
-                  ? "equals"
-                  : btn === "C"
-                  ? "clear"
-                  : btn === 0
-                  ? "zero"
-                  : "button"
-              }
-              value={btn}
-              onClick={
-                btn === "/" || btn === "X" || btn === "-" || btn === "+"
-                  ? signClickHandler
-                  : btn === "+-"
-                  ? invertClickHandler
-                  : btn === "%"
-                  ? percentClickHandler
-                  : btn === "="
-                  ? equalsClickHandler
-                  : btn === "."
-                  ? commaClickHandler
-                  : btn === "C"
-                  ? resetClickHandler
-                  : numClickHandler
-              }
-            />
-          );
-        })}
+        {buttonArr.flat().map((btn) => (
+          <CalcButtons
+            key={btn}
+            className={btnClassName(btn)}
+            value={btn}
+            onClick={assignClickHandler(btn)}
+          />
+        ))}
       </div>
     </div>
   );
